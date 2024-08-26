@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/readings")
+@RequestMapping("/api/readings")
 public class ReadingController {
     @Autowired
     private ReadingService readingService;
 
     @GetMapping("/get-all")
-    public ReadingDto getAllReadings() {
+    public List<ReadingDto> getAllReadings() {
         return readingService.getReadingsByStatus();
     }
 }

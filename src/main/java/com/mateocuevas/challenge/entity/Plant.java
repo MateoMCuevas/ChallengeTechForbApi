@@ -23,8 +23,8 @@ public class Plant {
     @Column(nullable = false)
     private String name;
     @Column(nullable = false)
-    private Country country;
-    @OneToMany(mappedBy = "installation", cascade = CascadeType.ALL)
+    private String country;
+    @OneToMany(mappedBy = "plant", cascade = CascadeType.ALL)
     private List<Reading> readings;
 
 

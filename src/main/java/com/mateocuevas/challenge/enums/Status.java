@@ -1,7 +1,8 @@
 package com.mateocuevas.challenge.enums;
 
 public enum Status {
-    OK,
-    ALERTA_MEDIANA,
-    ALERTA_ROJA
+    LECTURAS_OK,
+    ALERTAS_MEDIAS,
+    ALERTAS_ROJAS,
+    SENSORES_DESHABILITADOS
 }

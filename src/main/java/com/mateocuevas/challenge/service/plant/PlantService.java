@@ -9,7 +9,9 @@ import java.util.List;
 import java.util.Map;
 
 public interface PlantService {
-    List<PlantDto> getPlantsWithAlerts();
-    void createPlant(PlantDto plantDto);
+    List<PlantDto> getAllPlants();
+    PlantDto createPlant(PlantDto plantDto);
+    PlantDto updatePlant(PlantDto plantDto);
+    Long deletePlant(Long plantId);
 
 }

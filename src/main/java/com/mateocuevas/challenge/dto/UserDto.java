@@ -9,7 +9,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ReadingDto {
+public class UserDto {
+
     private String name;
-    private long count;
+    private String lastName;
 }

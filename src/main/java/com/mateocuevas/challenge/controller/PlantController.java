@@ -14,20 +14,31 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/plants")
+@RequestMapping("/api/plants")
 public class PlantController {
 
     @Autowired
     private PlantService plantService;
 
-    @GetMapping("/get-all-with-alerts")
-    public List<PlantDto> getPlantsWithAlerts() {
-        return plantService.getPlantsWithAlerts();
+    @GetMapping("/get-all")
+    public List<PlantDto> getAllPlants() {
+        System.out.println("Request to get plants received!");
+        return plantService.getAllPlants();
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Void> createPlant(@RequestBody PlantDto plantDto) {
-         plantService.createPlant(plantDto);
-         return new ResponseEntity<>(HttpStatus.CREATED);
+    public ResponseEntity<PlantDto> createPlant(@RequestBody PlantDto plantDto) {
+        System.out.println("Request to create a plant received!");
+         return ResponseEntity.ok(plantService.createPlant(plantDto));
+    }
+    @PutMapping("/update")
+    public ResponseEntity<PlantDto> updatePlant(@RequestBody PlantDto plantDto) {
+        System.out.println("Request to update a plant received!");
+        return ResponseEntity.ok(plantService.updatePlant(plantDto));
+    }
+    @DeleteMapping("/delete/{plantId}")
+    public ResponseEntity<Long> deletePlant(@PathVariable Long plantId) {
+        System.out.println("Request to delete a plant received!");
+        return ResponseEntity.ok(plantService.deletePlant(plantId));
     }
 }

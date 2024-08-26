@@ -10,4 +10,6 @@ import java.util.List;
 @Repository
 public interface ReadingRepository extends JpaRepository<Reading,Long> {
     long countByStatus(Status status);
+    long countByPlantIdAndStatus(Long plantId, Status status);
+    void deleteByPlantId(Long plantId);
 }

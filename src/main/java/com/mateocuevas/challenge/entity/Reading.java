@@ -21,7 +21,7 @@ public class Reading {
     private Long id;
     private LocalDateTime readingTime;
     @ManyToOne
-    @JoinColumn(name = "installation_id")
+    @JoinColumn(name = "plant_id")
     private Plant plant;
     @ManyToOne
     @JoinColumn(name = "characteristic_id")

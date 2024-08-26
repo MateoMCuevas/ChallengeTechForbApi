@@ -18,7 +18,7 @@ import java.util.function.Function;
 public class JwtServiceImpl implements JwtService{
 
     private static final String SECRET_KEY="j6jdR6JRgZyw8OhlWAX5gmcoujxIi6Uyu4WqkxtP6f0=";
-    private static final long EXPIRATION_TIME = 60 * 60 * 1000; // 1 hour
+    private static final long EXPIRATION_TIME = 60L * 60 * 1000; // 1 hour
 
 
     public String getToken(UserDetails user){

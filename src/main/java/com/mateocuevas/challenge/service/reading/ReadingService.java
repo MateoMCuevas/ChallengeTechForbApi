@@ -7,5 +7,6 @@ import com.mateocuevas.challenge.enums.Status;
 import java.util.List;
 
 public interface ReadingService {
-    ReadingDto getReadingsByStatus();
+    List<ReadingDto> getReadingsByStatus();
+    Long getReadingByPlantIdAndStatus(Long plantId, Status status);
 }

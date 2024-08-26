@@ -1,8 +1,11 @@
 package com.mateocuevas.challenge.service.user;
 
+import com.mateocuevas.challenge.dto.UserDto;
 import com.mateocuevas.challenge.entity.User;
 import com.mateocuevas.challenge.enums.UserRole;
+import com.mateocuevas.challenge.exception.UserNotFoundException;
 import com.mateocuevas.challenge.repository.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -15,10 +18,28 @@ public class UserServiceImpl implements UserService{
     @Autowired
     private UserRepository userRepository;
 
-    public Optional<User> getUserAuthenticated() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication(); //Find user authenticated in  the moment
-        String username = authentication.getName();
-        return findByUsername(username);
+    public UserDto getUser()
+    {
+        User user=getUserAuthenticated();
+        return UserDto.builder()
+                .name(user.getFirstName())
+                .lastName(user.getLastName())
+                .build();
+    }
+
+    public User getUserAuthenticated() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication != null && authentication.isAuthenticated()) {
+            Object principal = authentication.getPrincipal();
+
+            if (principal instanceof User) {
+                return (User) principal;
+            }else{
+            throw new UserNotFoundException("there is no authenticated user");
+            }
+        }
+        return null;
     }
 
     @Override
@@ -36,6 +57,6 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public Optional<User> findByUsername(String username) {return userRepository.findByEmail(username);
+    public Optional<User> findByEmail(String email) {return userRepository.findByEmail(email);
     }
 }

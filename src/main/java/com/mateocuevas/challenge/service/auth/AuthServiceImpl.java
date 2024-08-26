@@ -6,8 +6,12 @@ import com.mateocuevas.challenge.dto.SignUpRequest;
 import com.mateocuevas.challenge.entity.User;
 import com.mateocuevas.challenge.enums.UserRole;
 import com.mateocuevas.challenge.exception.EmailAlreadyExistsException;
+import com.mateocuevas.challenge.exception.UserNotFoundException;
 import com.mateocuevas.challenge.service.jwt.JwtService;
 import com.mateocuevas.challenge.service.user.UserService;
+import jakarta.persistence.EntityNotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -18,6 +22,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class AuthServiceImpl implements AuthService{
 
+    private static final Logger log = LoggerFactory.getLogger(AuthServiceImpl.class);
     @Autowired
     private  UserService userService;
     @Autowired
@@ -30,7 +35,7 @@ public class AuthServiceImpl implements AuthService{
     @Override
     public AuthResponse logIn(LogInRequest logInRequest) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(logInRequest.getEmail(), logInRequest.getPassword()));
-        UserDetails user = userService.findByUsername(logInRequest.getEmail()).orElseThrow();
+        UserDetails user = userService.findByEmail(logInRequest.getEmail()).orElseThrow();
         String token = jwtService.getToken(user);
         String role = jwtService.getRoleFromUser(user);
         return AuthResponse.builder()
@@ -41,7 +46,7 @@ public class AuthServiceImpl implements AuthService{
 
     @Override
     public AuthResponse signUp(SignUpRequest signUpRequest) {
-        if (userService.findByUsername(signUpRequest.getEmail()).isEmpty()) {
+        if (userService.findByEmail(signUpRequest.getEmail()).isEmpty()) {
             User user = User.builder()
                     .email(signUpRequest.getEmail())
                     .password(passwordEncoder.encode(signUpRequest.getPassword()))

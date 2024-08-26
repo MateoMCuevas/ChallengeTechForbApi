@@ -18,6 +18,7 @@ public class ApplicationConfig {
     @Autowired
     private UserService userService;
 
+
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
@@ -39,7 +40,7 @@ public class ApplicationConfig {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return username -> userService.findByUsername(username)
+        return email -> userService.findByEmail(email)
                 .orElseThrow(()-> new UsernameNotFoundException("user not found"));
     }
 }
